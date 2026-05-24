@@ -1,4 +1,0 @@
-"scripts": {
-  "build": "npx vite build",
-  "start": "npx serve -s dist"
-},
