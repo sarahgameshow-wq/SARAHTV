@@ -1,4 +1,4 @@
-const firebaseConfig = { databaseURL: "SUA_URL_AQUI" };
+const firebaseConfig = { databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com/" };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
