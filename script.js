@@ -1,18 +1,15 @@
-const firebaseConfig = {
-  databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com/"
-};
-
+const firebaseConfig = { databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com/" };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Tenta ler o banco e mostra na tela
 db.ref('comando').on('value', (snapshot) => {
-    const comando = snapshot.val();
-    const root = document.getElementById('root');
-    if (root) {
-        root.innerHTML = "<h1>Comando atual: " + (comando || "Nenhum") + "</h1>";
-    }
-}, (error) => {
-    console.error("Erro ao conectar no Firebase: ", error);
-    document.getElementById('root').innerHTML = "<h1>Erro de conexão! Verifique o console (F12)</h1>";
+    const cmd = snapshot.val();
+    const tela = document.getElementById('root');
+    // Aqui você controla o que aparece baseado no botão
+    tela.innerHTML = "SINAL RECEBIDO: <br><span style='color:white'>" + cmd + "</span>";
 });
+
+// Atualiza o relógio
+setInterval(() => {
+    document.getElementById('relogio').innerText = new Date().toLocaleTimeString();
+}, 1000);
