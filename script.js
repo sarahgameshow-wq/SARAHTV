@@ -5,11 +5,14 @@ const db = firebase.database();
 db.ref('comando').on('value', (snapshot) => {
     const cmd = snapshot.val();
     const tela = document.getElementById('root');
-    // Aqui você controla o que aparece baseado no botão
-    tela.innerHTML = "SINAL RECEBIDO: <br><span style='color:white'>" + cmd + "</span>";
+    
+    if (cmd === 'PLAY') {
+        tela.innerHTML = '<iframe width="80%" height="300" src="https://www.youtube.com/embed/SUA_ID_DO_VIDEO?autoplay=1" frameborder="0" allow="autoplay; fullscreen"></iframe>';
+    } else {
+        tela.innerHTML = '<div class="sinal">SINAL RECEBIDO: ' + cmd + '</div>';
+    }
 });
 
-// Atualiza o relógio
 setInterval(() => {
     document.getElementById('relogio').innerText = new Date().toLocaleTimeString();
 }, 1000);
