@@ -11,25 +11,16 @@ db.ref('comando').on('value', (snapshot) => {
 
     if (cmd.startsWith('PLAY:')) {
         let url = cmd.split('PLAY:')[1];
-        let videoId = "";
-        // Tenta pegar o ID do vídeo de formas diferentes
-        if(url.includes("v=")) videoId = url.split('v=')[1].split('&')[0];
-        else if(url.includes("youtu.be/")) videoId = url.split('youtu.be/')[1];
-        else videoId = url;
-
+        let videoId = url.includes("v=") ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
         tela.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; fullscreen"></iframe>`;
     } 
-  // Dentro do seu db.ref('comando').on...
-    else if (cmd.startsWith('ROTATE:')) {
-        let angulo = cmd.split('ROTATE:')[1]; // Exemplo: ROTATE:90 ou ROTATE:0
-        monitor.style.transform = `rotate(${angulo}deg)`;
-        
-        // Ajusta a largura dependendo do ângulo
-        if (angulo === '0') {
-            monitor.style.width = '70%';
-        } else {
-            monitor.style.width = '40%';
-        }
+    else if (cmd === 'ROTATE') {
+        const estaVirado = monitor.style.transform === 'rotate(90deg)';
+        monitor.style.transform = estaVirado ? 'rotate(0deg)' : 'rotate(90deg)';
+        monitor.style.width = estaVirado ? '70%' : '40%';
+    }
+    else {
+        tela.innerHTML = "SINAL RECEBIDO: " + cmd;
     }
 });
 
