@@ -12,3 +12,15 @@ window.onload = function() {
         alert("Erro: Não encontrei a div 'root' no seu HTML!");
     }
 };
+// O script na TV fica verificando mudanças
+setInterval(() => {
+    const comando = localStorage.getItem('comando_sarah');
+    if (comando) {
+        console.log("A TV recebeu: " + comando);
+        // Aqui você coloca a lógica do jogo
+        document.getElementById('root').innerHTML = "<h1>Executando: " + comando + "</h1>";
+        
+        // Limpa o comando para não repetir
+        localStorage.removeItem('comando_sarah');
+    }
+}, 1000); // Verifica a cada 1 segundo
