@@ -25,11 +25,12 @@
 
         function mudarTab(tab) {
             const painel = document.getElementById('painel');
-            if(tab === 'PLAYLIST') {
-                painel.innerHTML = `<h3>PLAYLIST</h3>
-                                    <input type="text" id="linkVideo" placeholder="Link do YouTube">
-                                    <button onclick="enviarLink()">ADICIONAR</button>`;
-            } else {
+          if(tab === 'AJUSTES') {
+    painel.innerHTML = `<h3>AJUSTES DO MONITOR</h3>
+                        <button onclick="enviar('MUTE')">MUTAR</button>
+                        <button onclick="enviar('FLIP')">VIRAR TELA</button>
+                        <button onclick="enviar('RESET')">REINICIAR</button>`;
+} else {
                 painel.innerHTML = `<h3>Modo ${tab}</h3><button onclick="enviar('PLAY')">ATIVAR MONITOR</button>`;
             }
         }
