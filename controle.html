@@ -1,3 +1,12 @@
-function enviarComando(cmd) {
-    firebase.database().ref('comando').set(cmd);
-}
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+<button onclick="enviar('PLAY')">PLAY</button>
+<button onclick="enviar('PROXIMA')">PRÓXIMA</button>
+
+<script>
+    firebase.initializeApp({ databaseURL: "SUA_URL_DO_FIREBASE_AQUI" });
+    function enviar(cmd) {
+        firebase.database().ref('comando').set(cmd);
+    }
+</script>
