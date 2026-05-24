@@ -2,17 +2,25 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SARAHTV Monitor</title>
-
+    <style>
+        body { background: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; margin: 0; }
+        
+        /* O "Painel" central */
+        #monitor { border: 2px solid #333; width: 80%; margin: 50px auto; padding: 20px; text-align: center; }
+        
+        /* Relógio no topo */
+        #relogio { font-size: 2em; float: right; border: 1px solid #00ff41; padding: 10px; }
+    </style>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
 <body>
-    
-    <div id="root">Carregando sistema...</div>
+    <div id="relogio">17:50:02</div>
+    <div id="monitor">
+        <h1>SISTEMA ONLINE</h1>
+        <div id="root">Aguardando comando...</div>
+    </div>
 
     <script src="script.js"></script>
-
 </body>
 </html>
