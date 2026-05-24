@@ -19,11 +19,17 @@ db.ref('comando').on('value', (snapshot) => {
 
         tela.innerHTML = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="autoplay; fullscreen"></iframe>`;
     } 
-    else if (cmd === 'FLIP') {
-        monitor.style.transform = monitor.style.transform === 'rotate(90deg)' ? 'rotate(0deg)' : 'rotate(90deg)';
-    }
-    else {
-        tela.innerHTML = "SINAL RECEBIDO: " + cmd;
+  // Dentro do seu db.ref('comando').on...
+    else if (cmd.startsWith('ROTATE:')) {
+        let angulo = cmd.split('ROTATE:')[1]; // Exemplo: ROTATE:90 ou ROTATE:0
+        monitor.style.transform = `rotate(${angulo}deg)`;
+        
+        // Ajusta a largura dependendo do ângulo
+        if (angulo === '0') {
+            monitor.style.width = '70%';
+        } else {
+            monitor.style.width = '40%';
+        }
     }
 });
 
