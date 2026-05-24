@@ -2,48 +2,31 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SARAHTV PRO</title>
     <style>
-        body { margin: 0; height: 100vh; background: #050505; display: flex; justify-content: center; align-items: center; }
+        body { margin: 0; height: 100vh; background: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         
-        <style>
-    /* ... outros códigos acima ... */
+        /* Contêiner Pai: Garante que tudo fique na tela */
+        #palco-geral { display: flex; align-items: center; gap: 30px; height: 90vh; width: 95vw; }
 
-    #container-principal { 
-        width: 70vw; 
-        height: 60vh; 
-        border: 8px solid #00FF00; /* Borda mais grossa */
-        background: #000; 
-        box-shadow: 0 0 50px rgba(0, 255, 0, 0.4); 
-        display: flex; 
-        flex-direction: column;
-        padding: 0; /* REMOVIDO o padding */
-    }
+        /* Celular Vertical Fixo */
+        #celular-tempo { width: 250px; height: 450px; background: #000; border-radius: 40px; border: 5px solid #333; color: #00FF00; padding: 20px; font-family: monospace; flex-shrink: 0; }
 
-    /* ... restante do código abaixo ... */
-</style>
-
-        /* TV GRANDE (70% da largura) */
-        #container-principal { 
-            width: 70vw; height: 60vh; 
-            border: 4px solid #00FF00; background: #000; 
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.2);
-            display: flex; flex-direction: column;
-        }
-
-        #root { flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        iframe { width: 100%; height: 100%; border: none; }
+        /* TV LED 70% */
+        #container-principal { width: 70vw; height: 60vh; border: 8px solid #00FF00; background: #000; box-shadow: 0 0 50px rgba(0, 255, 0, 0.4); display: flex; flex-direction: column; padding: 0; }
+        
+        #root { flex-grow: 1; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        iframe, video { width: 100%; height: 100%; border: none; object-fit: fill; }
+        
         #rodape-noticias { position: fixed; bottom: 0; width: 100%; height: 40px; background: #FFD700; color: black; font-weight: bold; display: flex; align-items: center; padding-left: 20px; font-size: 18px; }
     </style>
 </head>
 <body>
 
-    <div id="sala-de-controle">
+    <div id="palco-geral">
         <div id="celular-tempo">
             <h3>CARAPICUÍBA</h3>
             <p>21°C - Nublado</p>
         </div>
-
         <div id="container-principal">
             <div id="root">AGUARDANDO...</div>
         </div>
@@ -56,20 +39,3 @@
     <script src="script.js"></script>
 </body>
 </html>
-#root { 
-    flex-grow: 1; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    overflow: hidden; 
-    width: 100%; 
-    height: 100%; 
-}
-
-/* Garante que qualquer vídeo preencha o container */
-iframe, video { 
-    width: 100% !important; 
-    height: 100% !important; 
-    border: none !important; 
-    object-fit: fill; /* Força preencher tudo */
-}
