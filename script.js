@@ -1,5 +1,5 @@
 const firebaseConfig = {
-  databaseURL: "AQUI_VAI_A_SUA_URL_DO_BANCO_QUE_TERMINA_EM_firebaseio.com"
+  databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com/"
 };
 
 firebase.initializeApp(firebaseConfig);
