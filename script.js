@@ -24,3 +24,8 @@ db.ref('comando').on('value', (snapshot) => {
 setInterval(() => {
     document.getElementById('relogio').innerText = new Date().toLocaleTimeString();
 }, 1000);
+console.log("Sistema SARAHTV carregando...");
+db.ref('comando').on('value', (snapshot) => {
+    console.log("Conectado! Comando recebido:", snapshot.val());
+    // ... restante do seu código
+});
