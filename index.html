@@ -2,20 +2,17 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <title>SARAHTV Monitor</title>
     <style>
         body { background: #050505; color: #00FF00; font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
         
-        /* Relógio no topo */
         #relogio { position: absolute; top: 15px; right: 20px; font-size: 1.2em; border: 1px solid #00FF00; padding: 5px 10px; }
         
-        /* Painel com borda neon */
         #monitor { border: 4px solid #00FF00; padding: 10px; width: 85%; height: 85%; box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); display: flex; flex-direction: column; transition: transform 0.5s; }
         
-        /* Área de Vídeo (Ocupa quase tudo) */
         #root { flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         iframe { width: 100%; height: 100%; border: none; }
         
-        /* Texto "SISTEMA..." na tela */
         .status { position: absolute; left: 20px; top: 20px; font-size: 1em; line-height: 1.5; }
     </style>
 </head>
@@ -25,6 +22,10 @@
         <div class="status">SISTEMA SARAHTV<br>SINAL RECEBIDO:</div>
         <div id="root">AGUARDANDO...</div>
     </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
     <script src="script.js"></script>
 </body>
 </html>
