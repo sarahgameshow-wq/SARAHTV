@@ -35,10 +35,12 @@
         }
 
         function enviar(cmd) { firebase.database().ref('comando').set(cmd); }
-        function enviarLink() { 
-            const link = document.getElementById('linkVideo').value;
-            firebase.database().ref('comando').set('PLAY:' + link); 
-        }
+function enviarLink() { 
+    const link = document.getElementById('linkVideo').value;
+    // Envia o link puro para o Firebase
+    firebase.database().ref('comando').set('PLAY:' + link); 
+    alert("Vídeo enviado para a TV!");
+}
     </script>
 </body>
 </html>
