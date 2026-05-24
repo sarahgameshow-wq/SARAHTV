@@ -6,13 +6,10 @@ db.ref('comando').on('value', (snapshot) => {
     const cmd = snapshot.val();
     const tela = document.getElementById('root');
     
-    if (cmd === 'PLAY') {
-        tela.innerHTML = '<iframe width="80%" height="300" src="https://www.youtube.com/embed/SUA_ID_DO_VIDEO?autoplay=1" frameborder="0" allow="autoplay; fullscreen"></iframe>';
+    if (cmd && cmd.startsWith('PLAY:')) {
+        const idVideo = cmd.split(':')[1];
+        tela.innerHTML = `<iframe width="100%" height="400" src="https://www.youtube.com/embed/${idVideo}?autoplay=1" frameborder="0"></iframe>`;
     } else {
-        tela.innerHTML = '<div class="sinal">SINAL RECEBIDO: ' + cmd + '</div>';
+        tela.innerHTML = "<h1>SISTEMA ONLINE</h1><p>Aguardando operação...</p>";
     }
 });
-
-setInterval(() => {
-    document.getElementById('relogio').innerText = new Date().toLocaleTimeString();
-}, 1000);
