@@ -1,12 +1,18 @@
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-
-<button onclick="enviar('PLAY')">PLAY</button>
-<button onclick="enviar('PROXIMA')">PRÓXIMA</button>
-
 <script>
-    firebase.initializeApp({ databaseURL: https://console.firebase.google.com/u/0/project/sarahtv-19938/database/sarahtv-19938-default-rtdb/data/~2F?hl=pt-br&fb_gclid=Cj0KCQjww8rQBhDjARIsAE43KPP6VkYahOwq02ElofT3R2FNVHgskw1TXRUgDiMKUdvJ89dYYGZGN3saAurOEALw_wcB&fb_utm_campaign=Cloud-SS-DR-Firebase-FY26-global-pmax-1713590&fb_utm_content=pmax&fb_utm_medium=display&fb_utm_source=PMAX });
+    // Configuração do Firebase
+    const firebaseConfig = {
+      databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com/"
+    };
+    firebase.initializeApp(firebaseConfig);
+
     function enviar(cmd) {
-        firebase.database().ref('comando').set(cmd);
+        console.log("Tentando enviar: " + cmd);
+        firebase.database().ref('comando').set(cmd)
+            .then(() => {
+                alert("Comando " + cmd + " enviado com sucesso!");
+            })
+            .catch((error) => {
+                console.error("Erro ao enviar: ", error);
+            });
     }
 </script>
