@@ -2,22 +2,27 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <style>
-        body { margin: 0; height: 100vh; background: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+   <style>
+        body { 
+            margin: 0; height: 100vh; overflow: hidden; 
+            /* Esta linha traz a imagem de fundo da sala */
+            background: url('https://images.unsplash.com/photo-1593642532744-d377ab507dc8?q=80&w=2000') no-repeat center center fixed; 
+            background-size: cover;
+            display: flex; align-items: center; justify-content: center; 
+        }
         
-        /* Contêiner Pai: Garante que tudo fique na tela */
-        #palco-geral { display: flex; align-items: center; gap: 30px; height: 90vh; width: 95vw; }
+        #palco-geral { display: flex; align-items: center; gap: 30px; height: 80vh; width: 90vw; }
 
-        /* Celular Vertical Fixo */
-        #celular-tempo { width: 250px; height: 450px; background: #000; border-radius: 40px; border: 5px solid #333; color: #00FF00; padding: 20px; font-family: monospace; flex-shrink: 0; }
+        /* Celular Vertical */
+        #celular-tempo { width: 220px; height: 400px; background: rgba(0,0,0,0.8); border-radius: 30px; border: 3px solid #00FF00; color: #00FF00; padding: 20px; font-family: monospace; display: flex; flex-direction: column; justify-content: center; }
 
         /* TV LED 70% */
-        #container-principal { width: 70vw; height: 60vh; border: 8px solid #00FF00; background: #000; box-shadow: 0 0 50px rgba(0, 255, 0, 0.4); display: flex; flex-direction: column; padding: 0; }
+        #container-principal { width: 70vw; height: 55vh; border: 6px solid #00FF00; background: #000; box-shadow: 0 0 40px rgba(0, 255, 0, 0.5); display: flex; flex-direction: column; padding: 0; }
         
-        #root { flex-grow: 1; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        #root { flex-grow: 1; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
         iframe, video { width: 100%; height: 100%; border: none; object-fit: fill; }
         
-        #rodape-noticias { position: fixed; bottom: 0; width: 100%; height: 40px; background: #FFD700; color: black; font-weight: bold; display: flex; align-items: center; padding-left: 20px; font-size: 18px; }
+        #rodape-noticias { position: fixed; bottom: 0; width: 100%; height: 40px; background: rgba(255, 215, 0, 0.9); color: black; font-weight: bold; display: flex; align-items: center; padding-left: 20px; font-size: 18px; }
     </style>
 </head>
 <body>
