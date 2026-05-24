@@ -6,15 +6,22 @@
     <style>
         body { margin: 0; height: 100vh; background: #050505; display: flex; justify-content: center; align-items: center; }
         
-        #sala-de-controle { display: flex; flex-direction: row; align-items: center; gap: 30px; }
+        <style>
+    /* ... outros códigos acima ... */
 
-        /* CELULAR EM PÉ (VERTICAL) AO LADO */
-        #celular-tempo { 
-            width: 250px; height: 450px; background: #000; 
-            border-radius: 40px; border: 5px solid #333; 
-            color: #00FF00; padding: 20px; font-family: 'Courier New', monospace;
-            display: flex; flex-direction: column; justify-content: center;
-        }
+    #container-principal { 
+        width: 70vw; 
+        height: 60vh; 
+        border: 8px solid #00FF00; /* Borda mais grossa */
+        background: #000; 
+        box-shadow: 0 0 50px rgba(0, 255, 0, 0.4); 
+        display: flex; 
+        flex-direction: column;
+        padding: 0; /* REMOVIDO o padding */
+    }
+
+    /* ... restante do código abaixo ... */
+</style>
 
         /* TV GRANDE (70% da largura) */
         #container-principal { 
