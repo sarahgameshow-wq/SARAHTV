@@ -2,30 +2,42 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SARAHTV Monitor</title>
+    <title>SARAHTV PRO</title>
     <style>
-        body { background: #050505; color: #00FF00; font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        body { background: #0c0c0c; color: #00FF00; font-family: 'Courier New', monospace; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
         
-        #relogio { position: absolute; top: 15px; right: 20px; font-size: 1.2em; border: 1px solid #00FF00; padding: 5px 10px; }
-        
-        #monitor { border: 4px solid #00FF00; padding: 10px; width: 85%; height: 85%; box-shadow: 0 0 20px rgba(0, 255, 0, 0.4); display: flex; flex-direction: column; transition: transform 0.5s; }
-        
-        #root { flex-grow: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        /* Layout principal estilo "Painel de Transmissão" */
+        #container-principal { 
+            width: 90%; height: 85vh; 
+            border: 2px solid #00FF00; 
+            display: flex; flex-direction: column;
+            padding: 20px; box-sizing: border-box;
+            background: #000;
+        }
+
+        /* Barra de Título e Relógio */
+        header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 1.2em; border-bottom: 1px solid #00FF00; padding-bottom: 5px; }
+
+        /* Área do Vídeo */
+        #root { flex-grow: 1; display: flex; align-items: center; justify-content: center; }
         iframe { width: 100%; height: 100%; border: none; }
-        
-        .status { position: absolute; left: 20px; top: 20px; font-size: 1em; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <div id="relogio">00:00:00</div>
-    <div id="monitor">
-        <div class="status">SISTEMA SARAHTV<br>SINAL RECEBIDO:</div>
-        <div id="root">AGUARDANDO...</div>
+
+    <div id="container-principal">
+        <header>
+            <div>SINAL ATIVO: MONITOR PRINCIPAL - TERMINAL</div>
+            <div id="relogio">00:00:00</div>
+        </header>
+        
+        <div id="root">
+            <div id="monitor">AGUARDANDO SINAL...</div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    
     <script src="script.js"></script>
 </body>
 </html>
