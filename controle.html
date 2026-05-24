@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle SARAHTV</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding: 50px; background: #222; color: #fff; }
+        button { padding: 20px 40px; font-size: 20px; margin: 10px; cursor: pointer; border-radius: 10px; border: none; background: #007bff; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Controle SARAHTV</h1>
+    <button onclick="enviarComando('PLAY')">PLAY</button>
+    <button onclick="enviarComando('PROXIMA')">PRÓXIMA PERGUNTA</button>
+
+    <script>
+        function enviarComando(comando) {
+            // Por enquanto, salvamos no navegador
+            localStorage.setItem('comando_sarah', comando);
+            console.log("Comando enviado: " + comando);
+            alert("Comando " + comando + " disparado!");
+        }
+    </script>
+</body>
+</html>
