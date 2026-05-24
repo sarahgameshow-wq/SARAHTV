@@ -1,3 +1,8 @@
+console.log("Sistema SARAHTV carregando...");
+db.ref('comando').on('value', (snapshot) => {
+    console.log("Conectado! Comando recebido:", snapshot.val());
+    // ... restante do seu código
+});
 const firebaseConfig = { databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com" };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -24,8 +29,3 @@ db.ref('comando').on('value', (snapshot) => {
 setInterval(() => {
     document.getElementById('relogio').innerText = new Date().toLocaleTimeString();
 }, 1000);
-console.log("Sistema SARAHTV carregando...");
-db.ref('comando').on('value', (snapshot) => {
-    console.log("Conectado! Comando recebido:", snapshot.val());
-    // ... restante do seu código
-});
