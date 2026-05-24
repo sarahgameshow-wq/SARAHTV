@@ -2,25 +2,21 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <title>SARAHTV Monitor</title>
     <style>
-        body { background: #0a0a0a; color: #00ff41; font-family: 'Courier New', monospace; margin: 0; }
-        
-        /* O "Painel" central */
-        #monitor { border: 2px solid #333; width: 80%; margin: 50px auto; padding: 20px; text-align: center; }
-        
-        /* Relógio no topo */
-        #relogio { font-size: 2em; float: right; border: 1px solid #00ff41; padding: 10px; }
+        body { background: black; color: #00FF00; font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        #monitor { border: 3px solid #00FF00; padding: 40px; width: 80%; text-align: center; box-shadow: 0 0 20px #00FF00; }
+        #relogio { position: absolute; top: 20px; right: 20px; font-size: 1.5em; border: 1px solid #00FF00; padding: 10px; }
     </style>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div id="relogio">17:50:02</div>
+    <div id="relogio">00:00:00</div>
     <div id="monitor">
-        <h1>SISTEMA ONLINE</h1>
-        <div id="root">Aguardando comando...</div>
+        <h1>SISTEMA SARAHTV</h1>
+        <div id="root" style="font-size: 2em; margin-top: 20px;">Aguardando sinal...</div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
