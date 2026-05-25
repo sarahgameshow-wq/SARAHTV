@@ -2,84 +2,43 @@
 <html lang="pt-br">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SARAHTV PRO - CONTROLE</title>
+    <title>CENTRAL SARAHTV</title>
     <style>
-        body { background: #000; color: #0F0; font-family: monospace; margin: 0; }
-        .tabs { display: flex; border-bottom: 2px solid #0F0; }
-        .tab { flex: 1; padding: 15px; text-align: center; cursor: pointer; background: #111; }
-        .tab.active { background: #0F0; color: #000; font-weight: bold; }
-        .content { padding: 20px; display: none; }
-        .content.active { display: block; }
-        input { width: 100%; padding: 15px; margin: 10px 0; background: #111; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
-        button { width: 100%; padding: 15px; background: #0F0; color: #000; border: none; font-weight: bold; margin-top: 5px; cursor: pointer; }
+        body { background: #000; color: #0F0; font-family: monospace; padding: 20px; }
+        .tv-card { border: 2px solid #0F0; padding: 15px; margin-bottom: 15px; border-radius: 10px; }
+        button { width: 100%; padding: 15px; background: #0F0; color: #000; font-weight: bold; margin-top: 5px; cursor: pointer; }
+        input { width: 100%; padding: 10px; background: #111; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
     </style>
 </head>
 <body>
-
-<div class="tabs">
-    <div class="tab active" onclick="show('playlist')">PLAYLIST</div>
-    <div class="tab" onclick="show('telas')">TELAS</div>
-    <div class="tab" onclick="show('ajustes')">AJUSTES</div>
-</div>
-
-<div id="playlist" class="content active">
-    <h3>FILA E DISPARO</h3>
-    <input type="text" id="url" placeholder="Cole o link do YouTube...">
-    <button onclick="enviarVideo()">🚀 ADICIONAR E DISPARAR</button>
-    <button onclick="limparFila()" style="background:#800; color:#fff; margin-top:10px;">🗑 LIMPAR FILA</button>
-</div>
-
-<div id="telas" class="content">
-    <h3>MONITOR ATIVO</h3>
+    <h1>🎮 CENTRAL DE REDE</h1>
     <div id="lista-telas"></div>
-</div>
 
-<div id="ajustes" class="content">
-    <h3>🛠 AJUSTES DE EMERGÊNCIA</h3>
-    <button onclick="enviarComando('REINICIAR')" style="background:#f00; color:#fff;">🔄 REINICIAR (Ctrl+F5)</button>
-    <button onclick="enviarComando('GIRAR')" style="background:#00f; color:#fff; margin-top:10px;">📱 VIRAR TELA</button>
-</div>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <script>
+        const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
 
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-<script>
-    const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
-    let monitorID = ""; // Variável global para guardar o ID detectado
-
-    function show(id) {
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        event.target.classList.add('active');
-    }
-
-    // Detecta o primeiro monitor que aparece no banco
-    db.ref('monitores').limitToFirst(1).on('value', snap => {
-        snap.forEach(m => {
-            monitorID = m.key;
-            document.getElementById('lista-telas').innerHTML = `<p>✅ MONITOR ATIVO: <b>${monitorID}</b></p>`;
+        db.ref('monitores').on('value', snap => {
+            const div = document.getElementById('lista-telas');
+            div.innerHTML = '';
+            snap.forEach(m => {
+                const id = m.key;
+                div.innerHTML += `
+                    <div class="tv-card">
+                        <h3>📺 ${id}</h3>
+                        <input type="text" id="url_${id}" placeholder="Link YouTube...">
+                        <button onclick="adicionar('${id}')">ADICIONAR À FILA</button>
+                        <button onclick="limpar('${id}')" style="background:#800; color:#fff;">LIMPAR FILA</button>
+                    </div>`;
+            });
         });
-    });
 
-    function enviarVideo() {
-        if(!monitorID) return alert("Nenhum monitor detectado!");
-        const url = document.getElementById('url').value;
-        if(!url) return alert("Cole o link!");
-        db.ref('monitores/' + monitorID + '/playlist').push(url);
-        db.ref('monitores/' + monitorID + '/comando').set('PLAY:' + url);
-        alert("Enviado para " + monitorID);
-    }
-
-    function limparFila() {
-        if(!monitorID) return;
-        db.ref('monitores/' + monitorID + '/playlist').remove();
-    }
-
-    function enviarComando(cmd) {
-        if(!monitorID) return alert("Monitor não encontrado!");
-        db.ref('monitores/' + monitorID + '/comando').set(cmd);
-        alert("Comando " + cmd + " enviado para " + monitorID);
-    }
-</script>
+        function adicionar(id) {
+            const url = document.getElementById('url_' + id).value;
+            db.ref('monitores/' + id + '/playlist').push(url);
+        }
+        function limpar(id) { db.ref('monitores/' + id + '/playlist').remove(); }
+    </script>
 </body>
 </html>
