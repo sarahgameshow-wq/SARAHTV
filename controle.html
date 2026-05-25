@@ -25,25 +25,26 @@
 <div id="playlist" class="content active">
     <h3>FILA E DISPARO</h3>
     <input type="text" id="url" placeholder="Cole o link do YouTube...">
-    <button onclick="adicionarEEnviar()" style="background:#0F0;">🚀 ENVIAR PARA MONITOR</button>
-    <button onclick="limpar()" style="background:#800; color:#fff; margin-top:10px;">🗑 LIMPAR FILA</button>
+    <button onclick="enviarVideo()">🚀 ADICIONAR E DISPARAR</button>
+    <button onclick="limparFila()" style="background:#800; color:#fff; margin-top:10px;">🗑 LIMPAR FILA</button>
 </div>
 
 <div id="telas" class="content">
-    <h3>MONITORES ONLINE</h3>
+    <h3>MONITOR ATIVO</h3>
     <div id="lista-telas"></div>
 </div>
 
 <div id="ajustes" class="content">
-    <h3>🛠 AJUSTES</h3>
-    <button onclick="cmd('REINICIAR')" style="background:#f00; color:#fff;">🔄 REINICIAR (Ctrl+F5)</button>
-    <button onclick="cmd('GIRAR')" style="background:#00f; color:#fff; margin-top:10px;">📱 VIRAR TELA</button>
+    <h3>🛠 AJUSTES DE EMERGÊNCIA</h3>
+    <button onclick="enviarComando('REINICIAR')" style="background:#f00; color:#fff;">🔄 REINICIAR (Ctrl+F5)</button>
+    <button onclick="enviarComando('GIRAR')" style="background:#00f; color:#fff; margin-top:10px;">📱 VIRAR TELA</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 <script>
     const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
+    let monitorID = ""; // Variável global para guardar o ID detectado
 
     function show(id) {
         document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
@@ -52,22 +53,33 @@
         event.target.classList.add('active');
     }
 
-    function adicionarEEnviar() {
+    // Detecta o primeiro monitor que aparece no banco
+    db.ref('monitores').limitToFirst(1).on('value', snap => {
+        snap.forEach(m => {
+            monitorID = m.key;
+            document.getElementById('lista-telas').innerHTML = `<p>✅ MONITOR ATIVO: <b>${monitorID}</b></p>`;
+        });
+    });
+
+    function enviarVideo() {
+        if(!monitorID) return alert("Nenhum monitor detectado!");
         const url = document.getElementById('url').value;
-        if(!url) return alert("Cole um link!");
-        db.ref('monitores/Monitor_Padrao/playlist').push(url);
-        db.ref('monitores/Monitor_Padrao/comando').set('PLAY:' + url);
-        alert("Enviado com sucesso!");
-        document.getElementById('url').value = '';
+        if(!url) return alert("Cole o link!");
+        db.ref('monitores/' + monitorID + '/playlist').push(url);
+        db.ref('monitores/' + monitorID + '/comando').set('PLAY:' + url);
+        alert("Enviado para " + monitorID);
     }
 
-    function limpar() { db.ref('monitores/Monitor_Padrao/playlist').remove(); }
-    function cmd(c) { db.ref('monitores/Monitor_Padrao/comando').set(c); }
+    function limparFila() {
+        if(!monitorID) return;
+        db.ref('monitores/' + monitorID + '/playlist').remove();
+    }
 
-    db.ref('monitores').on('value', snap => {
-        const div = document.getElementById('lista-telas'); div.innerHTML = '';
-        snap.forEach(m => div.innerHTML += `<p>✅ ${m.key} - ONLINE</p>`);
-    });
+    function enviarComando(cmd) {
+        if(!monitorID) return alert("Monitor não encontrado!");
+        db.ref('monitores/' + monitorID + '/comando').set(cmd);
+        alert("Comando " + cmd + " enviado para " + monitorID);
+    }
 </script>
 </body>
 </html>
