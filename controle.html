@@ -1,52 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTROLE SARAHTV</title>
     <style>
-        body { background: #1a1a1a; color: #00FF00; font-family: 'Courier New', monospace; text-align: center; padding: 10px; }
-        button { padding: 15px; margin: 10px; background: #003300; border: 1px solid #00FF00; color: #00FF00; cursor: pointer; width: 90%; }
-        .container { border: 1px solid #00FF00; padding: 15px; margin-top: 10px; }
+        body { background: #111; color: #00FF00; font-family: monospace; padding: 20px; text-align: center; }
+        input { width: 90%; padding: 15px; margin: 10px 0; background: #000; border: 1px solid #00FF00; color: #fff; }
+        button { width: 90%; padding: 20px; margin: 10px 0; background: #004400; color: #00FF00; border: 1px solid #00FF00; font-size: 1.2em; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>SARAHTV PRO - CONTROLE</h1>
-    
-    <div id="listaMonitores" class="container">
-        <h3>MONITORES CONECTADOS:</h3>
-    </div>
+    <h1>CONTROLE SARAH GAMES</h1>
+    <input type="text" id="urlVideo" placeholder="Link do YouTube ou MP4">
+    <button onclick="enviar()">ENVIAR PARA A TV</button>
 
-    <div class="container">
-        <input type="text" id="linkVideo" placeholder="ID do YouTube" style="width: 80%; padding: 10px; background: #000; color: #fff;">
-        <button onclick="enviar('PLAY:' + document.getElementById('linkVideo').value)">PLAY VÍDEO</button>
-        <button onclick="enviar('ROTATE')" style="background: #330000; color: red;">VIRAR TELA</button>
-    </div>
-
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
-        const firebaseConfig = { databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com" };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // Função de envio de comandos
-        function enviar(cmd) { 
-            db.ref('comando').set(cmd); 
+        const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
+        function enviar() {
+            const url = document.getElementById('urlVideo').value;
+            db.ref('comando').set('PLAY:' + url);
+            alert("Enviado para a TV!");
         }
-
-        // Função de descobrir monitores automaticamente
-        db.ref('monitores').on('value', (snapshot) => {
-            const lista = snapshot.val();
-            const container = document.getElementById('listaMonitores');
-            
-            if (lista) {
-                container.innerHTML = "<h3>MONITORES CONECTADOS:</h3>";
-                Object.keys(lista).forEach(id => {
-                    let btn = document.createElement('button');
-                    btn.innerText = "CONTROLANDO " + id;
-                    container.appendChild(btn);
-                });
-            }
-        });
     </script>
 </body>
 </html>
