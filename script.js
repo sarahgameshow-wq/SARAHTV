@@ -1,15 +1,11 @@
 const db = firebase.database();
 const monitorID = "Monitor_" + Math.floor(Math.random() * 1000);
+document.getElementById('id-monitor').innerText = monitorID;
 
-console.log("Conectando como: " + monitorID);
-
-// Registra presença
 db.ref('monitores/' + monitorID).set({ status: 'online' });
 
-// Ouve o comando
 db.ref('monitores/' + monitorID + '/comando').on('value', (snap) => {
     const cmd = snap.val();
-    console.log("Recebi comando: " + cmd);
     if (cmd && cmd.startsWith('PLAY:')) {
         const url = cmd.replace('PLAY:', '');
         const root = document.getElementById('root');
