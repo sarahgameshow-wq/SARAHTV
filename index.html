@@ -2,53 +2,90 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SARAHTV - Vitrine</title>
+    <title>SARAHTV PRO - ESTAÇÃO</title>
     <style>
+        /* CONFIGURAÇÃO GERAL E FUNDO DO ESTÚDIO */
         body { 
-            background: #000; color: #00FF00; font-family: 'Courier New', monospace; 
-            margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; 
+            margin: 0; height: 100vh; overflow: hidden;
+            background: url('https://image.spreadshirtmedia.net/image-server/v1/mp/products/T1457A1MPA4459PT10X14Y18D196328631W2661H3105/views/1,width=1200,height=1200,appearanceId=1,backgroundColor=F2F2F2/monitoring-studio-technical-support-desk-tech-poster-postercard.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        
-        /* Cabeçalho com Relógio Grande e Sinal */
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 10px 40px; border-bottom: 2px solid #00FF00; 
+
+        /* CONTAINER DO NOTEBOOK CENTRALIZADO */
+        #wrapper-notebook {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        #sinal { font-size: 1.5em; text-transform: uppercase; font-weight: bold; }
-        #relogio { font-size: 3em; border: 3px solid #00FF00; padding: 5px 20px; border-radius: 5px; font-weight: bold; }
-        
-        /* Container Principal da Tela de Vídeo */
-        #root { 
-            flex-grow: 1; display: flex; align-items: center; justify-content: center; 
-            border: 5px solid #00FF00; border-radius: 10px; margin: 30px; 
-            box-shadow: 0 0 25px rgba(0, 255, 0, 0.4); overflow: hidden; 
+
+        /* O NOTEBOOK (A MOLDURA) */
+        #notebook-container {
+            width: 70vw; /* Ajuste para o tamanho da sua TV */
+            height: 55vh;
+            background: #000; border: 12px solid #333;
+            border-radius: 15px 15px 5px 5px;
+            overflow: hidden; position: relative;
         }
-        
-        iframe { width: 100%; height: 100%; border: none; }
+
+        /* TELA CHEIA (O VÍDEO DENTRO) */
+        #root { width: 100%; height: 100%; }
+        iframe, video { 
+            width: 100% !important; height: 100% !important; 
+            border: none !important; object-fit: fill !important; /* Estica o vídeo para preencher */
+        }
+
+        /* A BASE DO NOTEBOOK */
+        #notebook-base {
+            width: 80vw;
+            height: 50px;
+            background: #333;
+            border-radius: 0 0 20px 20px;
+            display: flex; justify-content: center; align-items: center;
+            color: #fff; font-family: sans-serif; font-weight: bold;
+        }
+
+        /* CELULAR DE MONITORAMENTO (POSICIONADO À ESQUERDA) */
+        #celular-tempo { 
+            position: absolute;
+            top: 50px; /* Distância do topo */
+            left: 10vw; /* Flutua à esquerda */
+            z-index: 10; /* Fica sobre o fundo */
+            width: 200px; height: 380px; 
+            background: rgba(15, 15, 15, 0.9); /* Vidro fosco */
+            border-radius: 30px; 
+            border: 2px solid #00FF00; 
+            color: #00FF00; padding: 20px; font-family: monospace;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+
+        /* RODAPÉ FIXO */
+        #rodape-noticias { 
+            position: fixed; bottom: 0; width: 100%; height: 40px; 
+            background: #FFD700; color: black; font-weight: bold; 
+            display: flex; align-items: center; padding-left: 20px; font-size: 18px;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <div id="sinal">📡 SINAL ATIVO: TRANSMISSÃO AO VIVO</div>
-        <div id="relogio">16:19:53</div>
-    </header>
-    
-    <div id="root">
-        AGUARDANDO...
+
+    <div id="celular-tempo">
+        <h3>TEMPO</h3>
+        <p>21°C - Nublado</p>
+        <p>CARAPICUÍBA - SP</p>
+    </div>
+
+    <div id="wrapper-notebook">
+        <div id="notebook-container">
+            <div id="root">AGUARDANDO...</div>
+        </div>
+        <div id="notebook-base">SARAH GAMES - MANUTENÇÃO E LAN HOUSE</div>
+    </div>
+
+    <div id="rodape-noticias">
+        <marquee>SISTEMA SARAHTV ONLINE >> TRANSMISSÃO AO VIVO >> SARAH GAMES: RUA ZUMBI DOS PALMARES, 25 - OSASCO</marquee>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
-    
-    <script>
-        // Função do Relógio em Tempo Real
-        function atualizarRelogio() {
-            const relogioElemento = document.getElementById('relogio');
-            const agora = new Date();
-            relogioElemento.innerText = agora.toLocaleTimeString();
-        }
-        setInterval(atualizarRelogio, 1000);
-    </script>
 </body>
 </html>
