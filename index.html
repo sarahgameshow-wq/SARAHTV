@@ -2,75 +2,53 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SARAHTV PRO</title>
     <style>
-        /* Força a imagem de fundo ocupar 100% da tela sempre */
         body { 
-          <div id="wrapper-notebook">
-            <div id="notebook-container">
-                <div id="root">AGUARDANDO...</div>
-            </div>
-            <div id="notebook-base">SARAH GAMES - MANUTENÇÃO E LAN HOUSE</div>
-        </div>
+            margin: 0; height: 100vh; width: 100vw; overflow: hidden;
+            background: #1a1a1a; /* Fundo escuro profissional */
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        
-        #palco-geral { display: flex; align-items: center; gap: 30px; height: 80vh; width: 90vw; }
 
-        #celular-tempo { width: 220px; height: 400px; background: rgba(0,0,0,0.8); border-radius: 30px; border: 3px solid #00FF00; color: #00FF00; padding: 20px; font-family: monospace; display: flex; flex-direction: column; justify-content: center; }
-
-      /* Notebook Container */
+        /* O Notebook */
         #notebook-container {
-            width: 75vw;
-            height: 60vh;
-            background: #222; /* Corpo do notebook */
-            border: 15px solid #333; /* Moldura da tela */
+            width: 80vw; height: 50vh;
+            background: #000;
+            border: 15px solid #333; /* Moldura do notebook */
             border-top: 20px solid #333;
             border-radius: 15px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            position: relative;
+            display: flex; position: relative;
         }
 
-        /* O vídeo dentro da tela */
-        #root { 
-            flex-grow: 1; 
-            width: 100%; 
-            height: 100%; 
-            background: black;
-            overflow: hidden;
-        }
+        /* O vídeo tem que preencher o container */
+        #root { width: 100%; height: 100%; overflow: hidden; }
+        iframe, video { width: 100%; height: 100%; border: none; object-fit: fill; }
 
-        /* Simulação da dobradiça/base do teclado */
+        /* A base (teclado) */
         #notebook-base {
-            width: 85vw;
-            height: 50px;
+            width: 85vw; height: 50px;
             background: #333;
             border-radius: 0 0 20px 20px;
-            margin-top: -5px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #555;
-            font-family: sans-serif;
-            font-weight: bold;
-            letter-spacing: 2px;
+            display: flex; justify-content: center; align-items: center;
+            color: #fff; font-family: sans-serif; font-weight: bold;
         }
-        
-        #rodape-noticias { position: fixed; bottom: 0; width: 100%; height: 40px; background: rgba(255, 215, 0, 0.9); color: black; font-weight: bold; display: flex; align-items: center; padding-left: 20px; font-size: 18px; }
+
+        #rodape-noticias { 
+            position: fixed; bottom: 0; width: 100%; height: 40px; 
+            background: #FFD700; color: black; font-weight: bold; 
+            display: flex; align-items: center; padding-left: 20px;
+        }
     </style>
 </head>
 <body>
-    <div id="palco-geral">
-        <div id="celular-tempo">
-            <h3>CARAPICUÍBA</h3>
-            <p>21°C - Nublado</p>
-        </div>
-        <div id="container-principal">
-            <div id="root">AGUARDANDO...</div>
-        </div>
+
+    <div id="notebook-container">
+        <div id="root">AGUARDANDO...</div>
     </div>
-    <div id="rodape-noticias"><marquee>SISTEMA SARAHTV ONLINE >> TRANSMISSÃO AO VIVO</marquee></div>
+    <div id="notebook-base">SARAH GAMES - MANUTENÇÃO E LAN HOUSE</div>
+
+    <div id="rodape-noticias">
+        <marquee>SISTEMA SARAHTV ONLINE >> TRANSMISSÃO AO VIVO >> SARAH GAMES - RUA ZUMBI DOS PALMARES, 25 - OSASCO</marquee>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
