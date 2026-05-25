@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html>
-<body style="margin:0; background:#000;">
-    <div id="player" style="width:100vw; height:100vh;"></div>
+<html lang="pt-br">
+<head>
+    <style>
+        body { margin: 0; background: #050505; color: #39FF14; font-family: 'Courier New', monospace; height: 100vh; display: flex; flex-direction: column; }
+        header { padding: 10px; border-bottom: 2px solid #39FF14; text-align: center; font-weight: bold; }
+        #main-container { display: flex; flex-grow: 1; }
+        #video-container { flex-grow: 1; border: 2px solid #39FF14; margin: 10px; }
+        iframe { width: 100%; height: 100%; border: none; }
+        #side-panel { width: 300px; padding: 20px; border-left: 2px solid #39FF14; }
+        #rodape { height: 40px; background: #39FF14; color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+    <header>SARAHTV PRO - ESTAÇÃO DE MONITORAMENTO ZUMBI DOS PALMARES</header>
+    <div id="main-container">
+        <div id="video-container" id="player">AGUARDANDO SINAL...</div>
+        <div id="side-panel">
+            <h3>STATUS:</h3>
+            <p id="monitor-id">Carregando...</p>
+        </div>
+    </div>
+    <div id="rodape">SISTEMA ONLINE - OSASCO</div>
+
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
         firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"});
         const db = firebase.database();
-        let lista = []; let index = 0;
+        const id = "Monitor_Principal";
+        document.getElementById('monitor-id').innerText = id;
 
         db.ref('fila').on('value', (snap) => {
-            lista = [];
+            let lista = [];
             snap.forEach(c => lista.push(c.val()));
-            if(lista.length > 0 && document.getElementById('player').innerHTML === "") tocar();
+            if(lista.length > 0) tocar(lista);
         });
 
-        function tocar() {
-            if(index >= lista.length) index = 0;
-            const id = lista[index].split('v=')[1]?.split('&')[0] || lista[index].split('/').pop();
-            document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=0" style="width:100%;height:100%;border:none;"></iframe>`;
-            setTimeout(tocar, 30000); // 30 segundos por vídeo (ajuste conforme necessário)
-            index++;
+        function tocar(lista, i = 0) {
+            const vId = lista[i].split('v=')[1]?.split('&')[0] || lista[i].split('/').pop();
+            document.getElementById('video-container').innerHTML = `<iframe src="https://www.youtube.com/embed/${vId}?autoplay=1&controls=0" allow="autoplay"></iframe>`;
+            setTimeout(() => tocar(lista, (i + 1) % lista.length), 60000);
         }
     </script>
 </body>
