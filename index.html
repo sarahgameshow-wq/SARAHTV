@@ -1,26 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
     <style>
-        body { margin: 0; background: #050505; color: #39FF14; font-family: 'Courier New', monospace; height: 100vh; display: flex; flex-direction: column; }
-        header { padding: 10px; border-bottom: 2px solid #39FF14; text-align: center; font-weight: bold; }
-        #main-container { display: flex; flex-grow: 1; }
-        #video-container { flex-grow: 1; border: 2px solid #39FF14; margin: 10px; }
+        /* CSS NEON DE ESTÚDIO */
+        body { 
+            margin: 0; 
+            background: #000; 
+            color: #39FF14; 
+            font-family: 'Courier New', monospace; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        header { 
+            padding: 20px; 
+            background: #0a0a0a;
+            border-bottom: 3px solid #39FF14; 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 22px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+        }
+
+        #main-container { 
+            display: flex; 
+            flex-grow: 1; 
+            padding: 20px;
+            gap: 20px;
+        }
+
+        #video-container { 
+            flex-grow: 1; 
+            border: 4px solid #39FF14; 
+            box-shadow: 0 0 25px rgba(57, 255, 20, 0.3);
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #side-panel { 
+            width: 300px; 
+            background: #0a0a0a;
+            border: 2px solid #39FF14; 
+            padding: 20px;
+            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.1);
+        }
+
+        #rodape { 
+            height: 50px; 
+            background: #39FF14; 
+            color: #000; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
         iframe { width: 100%; height: 100%; border: none; }
-        #side-panel { width: 300px; padding: 20px; border-left: 2px solid #39FF14; }
-        #rodape { height: 40px; background: #39FF14; color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
     <header>SARAHTV PRO - ESTAÇÃO DE MONITORAMENTO ZUMBI DOS PALMARES</header>
+    
     <div id="main-container">
-        <div id="video-container" id="player">AGUARDANDO SINAL...</div>
+        <div id="video-container">AGUARDANDO SINAL...</div>
         <div id="side-panel">
-            <h3>STATUS:</h3>
+            <h3 style="text-decoration: underline;">STATUS:</h3>
             <p id="monitor-id">Carregando...</p>
+            <div style="margin-top: 50px; font-size: 12px; color: #555;">
+                SINAL OPERACIONAL: ATIVO<br>
+                OSASCO - SP
+            </div>
         </div>
     </div>
-    <div id="rodape">SISTEMA ONLINE - OSASCO</div>
+    
+    <div id="rodape">SISTEMA ONLINE - SARAHTV PRO</div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
