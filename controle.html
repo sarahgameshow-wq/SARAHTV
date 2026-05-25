@@ -2,52 +2,41 @@
 <html lang="pt-br">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTROLE MASTER SARAH TV</title>
+    <title>CONTROLE SARAHTV</title>
     <style>
-        body { background: #000; color: #0F0; font-family: monospace; padding: 20px; }
-        .monitor-box { background: #111; border: 2px solid #0F0; padding: 15px; margin-bottom: 20px; border-radius: 10px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; background: #000; color: #0F0; border: 1px solid #0F0; }
-        button { width: 100%; padding: 15px; background: #0F0; color: #000; font-weight: bold; border: none; border-radius: 5px; }
+        body { background: #000; color: #0F0; font-family: monospace; padding: 20px; margin: 0; }
+        h1 { text-align: center; border-bottom: 2px solid #0F0; padding-bottom: 10px; }
+        .monitor-card { background: #111; border: 2px solid #0F0; border-radius: 10px; padding: 15px; margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; margin: 10px 0; background: #000; color: #FFF; border: 1px solid #0F0; box-sizing: border-box; }
+        button { width: 100%; padding: 20px; background: #0F0; color: #000; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
     <h1>🎮 CONTROLE REMOTO</h1>
-    <div id="lista-monitores"></div>
+    <div id="lista"></div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
         const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
         
-        // Playlist que você preenche aqui ou no banco de dados
-        const minhaPlaylist = [
-            {nome: "Vídeo 01 - Promoção", url: "https://seusite.com/video1.mp4"},
-            {nome: "Vídeo 02 - Ofertas", url: "https://seusite.com/video2.mp4"}
-        ];
-
         db.ref('monitores').on('value', (snap) => {
-            const container = document.getElementById('lista-monitores');
-            container.innerHTML = '';
+            const lista = document.getElementById('lista');
+            lista.innerHTML = '';
             snap.forEach(m => {
                 const id = m.key;
-                container.innerHTML += `
-                    <div class="monitor-box">
+                lista.innerHTML += `
+                    <div class="monitor-card">
                         <h3>📺 ${id}</h3>
-                        <input type="text" id="url_${id}" placeholder="Cole Link YouTube ou MP4">
-                        <select id="sel_${id}">
-                            <option value="">-- Ou escolha da Playlist --</option>
-                            ${minhaPlaylist.map(v => `<option value="${v.url}">${v.nome}</option>`).join('')}
-                        </select>
-                        <button onclick="enviar('${id}')">DISPARAR COMANDO</button>
+                        <input type="text" id="url_${id}" placeholder="Cole o link do YouTube...">
+                        <button onclick="enviar('${id}')">DISPARAR VÍDEO</button>
                     </div>`;
             });
         });
 
         function enviar(id) {
-            let url = document.getElementById('url_' + id).value;
-            const sel = document.getElementById('sel_' + id).value;
-            if (sel) url = sel;
-            if(!url) return alert("Escolha um vídeo!");
+            const url = document.getElementById('url_' + id).value;
+            if(!url) return alert("Cole o link!");
             db.ref('monitores/' + id + '/comando').set('PLAY:' + url);
         }
     </script>
