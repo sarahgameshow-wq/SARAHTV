@@ -19,10 +19,19 @@
             display: flex; position: relative;
         }
 
-        /* O vídeo tem que preencher o container */
-        #root { width: 100%; height: 100%; overflow: hidden; }
-        iframe, video { width: 100%; height: 100%; border: none; object-fit: fill; }
+      /* Garante que o container ocupe todo o espaço da moldura */
+        #root { 
+            width: 100%; height: 100%; 
+            display: flex; align-items: center; justify-content: center;
+        }
 
+        /* O SEGREDO ESTÁ AQUI: cover e overflow hidden */
+        iframe, video { 
+            width: 100% !important; 
+            height: 100% !important; 
+            border: none !important; 
+            object-fit: cover !important; /* Estica para cobrir tudo */
+        }
         /* A base (teclado) */
         #notebook-base {
             width: 85vw; height: 50px;
