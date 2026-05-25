@@ -4,38 +4,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { background: #000; color: #0F0; font-family: sans-serif; padding: 20px; }
-        .monitor-btn { 
-            background: #222; border: 2px solid #0F0; color: #0F0; 
-            padding: 20px; margin: 10px; width: 100%; border-radius: 10px; font-weight: bold;
-        }
+        .monitor-btn { background: #111; border: 2px solid #0F0; padding: 15px; margin-bottom: 20px; border-radius: 10px; }
+        button { background: #0F0; color: #000; border: none; padding: 15px; width: 100%; font-weight: bold; margin-top: 10px; }
+        input { width: 90%; padding: 10px; margin-top: 5px; }
     </style>
 </head>
 <body>
-    <h1>CONTROLE AUTOMÁTICO</h1>
+    <h1>CONTROLE SARAH TV</h1>
     <div id="lista"></div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
         const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
-        
         db.ref('monitores').on('value', (snap) => {
             const lista = document.getElementById('lista');
-            lista.innerHTML = '<h2>Monitores Online:</h2>';
+            lista.innerHTML = '';
             snap.forEach(m => {
                 const id = m.key;
                 lista.innerHTML += `
                     <div class="monitor-btn">
-                        ${id} <br>
-                        <input type="text" id="url_${id}" placeholder="Link do vídeo...">
+                        <strong>${id}</strong><br>
+                        <input type="text" id="url_${id}" placeholder="Link do vídeo">
                         <button onclick="enviar('${id}')">DISPARAR</button>
                     </div>`;
             });
         });
-
         function enviar(id) {
             const url = document.getElementById('url_' + id).value;
             db.ref('monitores/' + id + '/comando').set('PLAY:' + url);
+            alert("Enviado para " + id);
         }
     </script>
 </body>
