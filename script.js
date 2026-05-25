@@ -3,7 +3,7 @@ const db = firebase.database();
 const nomeMonitor = "Padaria"; 
 
 // Registra a tela no sistema
-db.ref('monitores/' + nomeMonitor).update({ status: 'online', ultimoAcesso: new Date().toLocaleTimeString() });
+db.ref('monitores/' + PRINCIPAL).update({ status: 'online', ultimoAcesso: new Date().toLocaleTimeString() });
 
 // Escuta comandos apenas para este monitor
 db.ref('monitores/' + nomeMonitor + '/comando').on('value', (snapshot) => {
