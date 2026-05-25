@@ -1,38 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>SARAHTV - MONITOR</title>
-    <style>
-        body { margin:0; background:#000; overflow:hidden; }
-        #root { width:100vw; height:100vh; }
-        iframe { width:100%; height:100%; border:none; }
-    </style>
-</head>
-<body>
-    <div id="root">AGUARDANDO...</div>
+<body style="margin:0; background:#000;">
+    <div id="player" style="width:100vw; height:100vh;"></div>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
         firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"});
-        const monitorID = "Monitor_Principal"; // ID Fixo para a TV Única
         const db = firebase.database();
-        
-        db.ref('monitores/' + monitorID + '/playlist').on('value', (snap) => {
-            const list = [];
-            snap.forEach(c => list.push(c.val()));
-            if(list.length > 0) tocar(list);
+        let lista = []; let index = 0;
+
+        db.ref('fila').on('value', (snap) => {
+            lista = [];
+            snap.forEach(c => lista.push(c.val()));
+            if(lista.length > 0 && document.getElementById('player').innerHTML === "") tocar();
         });
 
-        function tocar(list) {
-            let i = 0;
-            function next() {
-                if(i >= list.length) i = 0;
-                const v = list[i].split('v=')[1]?.split('&')[0] || list[i].split('/').pop();
-                document.getElementById('root').innerHTML = `<iframe src="https://www.youtube.com/embed/${v}?autoplay=1&controls=0&modestbranding=1" style="width:100%;height:100%;border:none;"></iframe>`;
-                setTimeout(next, 60000); // 60s por vídeo
-                i++;
-            }
-            next();
+        function tocar() {
+            if(index >= lista.length) index = 0;
+            const id = lista[index].split('v=')[1]?.split('&')[0] || lista[index].split('/').pop();
+            document.getElementById('player').innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=0" style="width:100%;height:100%;border:none;"></iframe>`;
+            setTimeout(tocar, 30000); // 30 segundos por vídeo (ajuste conforme necessário)
+            index++;
         }
     </script>
 </body>
