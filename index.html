@@ -2,38 +2,41 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SARAHTV PRO</title>
+    <title>SARAHTV FULLSCREEN</title>
     <style>
         body { 
             margin: 0; padding: 0; height: 100vh; width: 100vw;
-            background: url('https://image.spreadshirtmedia.net/image-server/v1/mp/products/T1457A1MPA4459PT10X14Y18D196328631W2661H3105/views/1,width=1200,height=1200,appearanceId=1,backgroundColor=F2F2F2/monitoring-studio-technical-support-desk-tech-poster-postercard.jpg') no-repeat center center;
-            background-size: cover;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            background: #000; overflow: hidden;
+            display: flex; flex-direction: column;
         }
 
-        /* Container do Vídeo: Ocupa 90% da largura e altura da tela */
+        /* O VÍDEO OCUPA TUDO ACIMA DO RODAPÉ */
         #root { 
-            width: 90vw; 
-            height: 80vh; 
-            background: #000; 
-            border: 8px solid #333; 
-            border-radius: 10px;
-            display: flex;
-            overflow: hidden;
+            flex-grow: 1; width: 100%; background: #000;
+        }
+        
+        iframe, video { 
+            width: 100% !important; height: 100% !important; 
+            border: none !important; object-fit: fill !important; 
         }
 
-        /* FORÇA O VÍDEO A PREENCHER TUDO */
-        iframe, video { 
-            width: 100% !important; 
-            height: 100% !important; 
-            border: none !important; 
-            object-fit: fill !important; 
+        /* RODAPÉ DE NOTÍCIAS FIXO */
+        #rodape-noticias { 
+            height: 60px; width: 100%;
+            background: #FFD700; color: #000;
+            display: flex; align-items: center;
+            font-size: 24px; font-weight: bold; font-family: sans-serif;
+            overflow: hidden;
         }
     </style>
 </head>
 <body>
 
     <div id="root">AGUARDANDO...</div>
+
+    <div id="rodape-noticias">
+        <marquee>SARAHTV ONLINE >> TRANSMISSÃO AO VIVO >> SARAH GAMES: RUA ZUMBI DOS PALMARES, 25 - OSASCO >> QUALIDADE E MANUTENÇÃO</marquee>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
