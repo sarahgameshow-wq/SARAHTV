@@ -23,48 +23,32 @@
 </div>
 
 <div id="playlist" class="content active">
-    <h3>FILA ATUAL</h3>
-    <input type="text" id="url" placeholder="Link YouTube...">
-    <button onclick="adicionar()">ADICIONAR</button>
-    <button onclick="limpar()" style="background:#f00; color:#fff;">LIMPAR FILA</button>
-</div>
-
-<div id="telas" class="content">
-    <h3>MONITORES CONECTADOS</h3>
-    <div id="lista-telas"></div>
-</div>
-
-<div id="ajustes" class="content">
-    <h3>AJUSTES DO SISTEMA</h3>
-    <button onclick="alert('Sistema Reiniciado!')">REINICIAR MONITOR</button>
-    <button onclick="alert('Brilho Ajustado!')">BRILHO 100%</button>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-<script>
-    const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
-
-    function show(id) {
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-        event.target.classList.add('active');
-    }
-
-    function adicionar() {
-        const url = document.getElementById('url').value;
-        db.ref('monitores/Monitor_Padrao/playlist').push(url);
-    }
+    <h3>FILA E DISPARO</h3>
+    <input type="text" id="url" placeholder="Cole o link do YouTube...">
     
-    function limpar() { db.ref('monitores/Monitor_Padrao/playlist').remove(); }
+    <button onclick="adicionarEEnviar()" style="background:#0F0; color:#000;">
+        🚀 ENVIAR PARA MONITOR
+    </button>
+    
+    <button onclick="limpar()" style="background:#800; color:#fff; margin-top:10px;">
+        🗑 LIMPAR TUDO
+    </button>
+</div>
 
-    // Listar telas conectadas
-    db.ref('monitores').on('value', snap => {
-        const div = document.getElementById('lista-telas');
-        div.innerHTML = '';
-        snap.forEach(m => div.innerHTML += `<p>✅ ${m.key} - ONLINE</p>`);
-    });
+<script>
+    function adicionarEEnviar() {
+        const url = document.getElementById('url').value;
+        if(!url) return alert("Cole um link!");
+        
+        // 1. Adiciona na playlist (para manter o histórico)
+        db.ref('monitores/Monitor_Padrao/playlist').push(url);
+        
+        // 2. Envia comando de PLAY imediato para o motor da TV
+        db.ref('monitores/Monitor_Padrao/comando').set('PLAY:' + url);
+        
+        alert("Vídeo enviado com sucesso!");
+        document.getElementById('url').value = ''; // Limpa o campo
+    }
 </script>
 </body>
 </html>
