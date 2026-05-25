@@ -2,53 +2,59 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>SARAHTV PRO</title>
+    <title>SARAHTV - CENTRAL DE INFORMAÇÕES</title>
     <style>
-        body { margin: 0; padding: 0; height: 100vh; width: 100vw; background: #000; overflow: hidden; display: flex; flex-direction: column; }
+        body { margin: 0; padding: 0; height: 100vh; background: #000; overflow: hidden; display: flex; flex-direction: column; }
 
-        /* VÍDEO OCUPA TUDO */
-        #root { flex-grow: 1; width: 100%; position: relative; }
+        /* VÍDEO NO CENTRO */
+        #root { flex-grow: 1; width: 100%; position: relative; background: #000; }
         iframe, video { width: 100% !important; height: 100% !important; border: none !important; object-fit: fill !important; }
 
-        /* DASHBOARD LATERAL (RELÓGIO E TEMPO) */
-        #dashboard { 
-            position: absolute; top: 20px; right: 20px; 
-            background: rgba(0, 0, 0, 0.7); border: 2px solid #00FF00; 
-            color: #00FF00; padding: 15px; border-radius: 10px; 
-            font-family: 'Courier New', monospace; text-align: right;
-            backdrop-filter: blur(5px); z-index: 10;
+        /* PAINEL ESQUERDO: ÔNIBUS */
+        #painel-onibus { 
+            position: absolute; top: 20px; left: 20px; z-index: 10;
+            background: rgba(0, 0, 0, 0.8); border: 2px solid #00FFFF;
+            color: #00FFFF; padding: 15px; border-radius: 10px;
+            font-family: monospace; width: 250px;
         }
-        .info-valor { font-size: 2em; font-weight: bold; }
+
+        /* PAINEL DIREITO: RELÓGIO E TEMPO */
+        #painel-direito { 
+            position: absolute; top: 20px; right: 20px; z-index: 10;
+            background: rgba(0, 0, 0, 0.8); border: 2px solid #00FF00;
+            color: #00FF00; padding: 15px; border-radius: 10px;
+            font-family: monospace; text-align: right;
+        }
 
         /* RODAPÉ */
-        #rodape-noticias { 
-            height: 50px; width: 100%; background: #FFD700; color: #000;
-            display: flex; align-items: center; font-size: 20px; font-weight: bold;
-        }
+        #rodape { height: 50px; background: #FFD700; color: #000; font-weight: bold; display: flex; align-items: center; font-size: 20px; }
     </style>
 </head>
 <body>
 
-    <div id="dashboard">
-        <div id="relogio" class="info-valor">00:00:00</div>
-        <div style="font-size: 1.2em;">21°C - Nublado</div>
-        <div style="font-size: 0.8em;">CARAPICUÍBA - SP</div>
+    <div id="painel-onibus">
+        <h3 style="margin-top:0;">🚌 ÔNIBUS (ZUMBI)</h3>
+        <p>448 - Centro: 08:15</p>
+        <p>110 - Terminal: 08:30</p>
+        <p>022 - Osasco: 08:45</p>
+    </div>
+
+    <div id="painel-direito">
+        <div id="relogio" style="font-size: 2em; font-weight: bold;">00:00:00</div>
+        <div>21°C - Nublado</div>
     </div>
 
     <div id="root">AGUARDANDO...</div>
 
-    <div id="rodape-noticias">
-        <marquee>SARAHTV ONLINE >> TRANSMISSÃO AO VIVO >> SARAH GAMES: RUA ZUMBI DOS PALMARES, 25 - OSASCO</marquee>
+    <div id="rodape">
+        <marquee>SARAHTV ONLINE >> TRANSMISSÃO AO VIVO >> SARAH GAMES - RUA ZUMBI DOS PALMARES, 25 - OSASCO</marquee>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="script.js"></script>
     <script>
-        function atualizar() {
-            document.getElementById('relogio').innerText = new Date().toLocaleTimeString();
-        }
-        setInterval(atualizar, 1000);
+        setInterval(() => document.getElementById('relogio').innerText = new Date().toLocaleTimeString(), 1000);
     </script>
 </body>
 </html>
