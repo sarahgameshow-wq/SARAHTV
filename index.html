@@ -6,33 +6,55 @@
     <style>
         /* Força a imagem de fundo ocupar 100% da tela sempre */
         body { 
-            margin: 0; height: 100vh; width: 100vw;
-            background: url('https://images.unsplash.com/photo-1593642532744-d377ab507dc8?q=80&w=2000') no-repeat center center fixed; 
-            background-size: cover !important; 
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+          <div id="wrapper-notebook">
+            <div id="notebook-container">
+                <div id="root">AGUARDANDO...</div>
+            </div>
+            <div id="notebook-base">SARAH GAMES - MANUTENÇÃO E LAN HOUSE</div>
+        </div>
         }
         
         #palco-geral { display: flex; align-items: center; gap: 30px; height: 80vh; width: 90vw; }
 
         #celular-tempo { width: 220px; height: 400px; background: rgba(0,0,0,0.8); border-radius: 30px; border: 3px solid #00FF00; color: #00FF00; padding: 20px; font-family: monospace; display: flex; flex-direction: column; justify-content: center; }
 
-        /* A MOLDURA DA TV */
-        #container-principal { 
-            width: 70vw; height: 55vh; 
-            border: 8px solid #00FF00; 
-            background: #000; 
-            box-shadow: 0 0 40px rgba(0, 255, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.1); 
-            border-radius: 8px;
-            display: flex; flex-direction: column; padding: 0; overflow: hidden;
+      /* Notebook Container */
+        #notebook-container {
+            width: 75vw;
+            height: 60vh;
+            background: #222; /* Corpo do notebook */
+            border: 15px solid #333; /* Moldura da tela */
+            border-top: 20px solid #333;
+            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            position: relative;
         }
-        
-        /* O CONTAINER DO VIDEO */
-        #root { width: 100%; height: 100%; display: flex; }
-        
-        /* FORÇA O VIDEO A COBRIR 100% DA MOLDURA */
-        iframe, video { 
-            width: 100% !important; height: 100% !important; 
-            border: none !important; object-fit: fill !important; 
+
+        /* O vídeo dentro da tela */
+        #root { 
+            flex-grow: 1; 
+            width: 100%; 
+            height: 100%; 
+            background: black;
+            overflow: hidden;
+        }
+
+        /* Simulação da dobradiça/base do teclado */
+        #notebook-base {
+            width: 85vw;
+            height: 50px;
+            background: #333;
+            border-radius: 0 0 20px 20px;
+            margin-top: -5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #555;
+            font-family: sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
         
         #rodape-noticias { position: fixed; bottom: 0; width: 100%; height: 40px; background: rgba(255, 215, 0, 0.9); color: black; font-weight: bold; display: flex; align-items: center; padding-left: 20px; font-size: 18px; }
