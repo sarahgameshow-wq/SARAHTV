@@ -2,44 +2,69 @@
 <html lang="pt-br">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTROLE PRO</title>
+    <title>SARAHTV PRO - CONTROLE</title>
     <style>
-        body { background: #000; color: #0F0; font-family: monospace; padding: 20px; }
-        .card { border: 2px solid #0F0; padding: 20px; border-radius: 15px; text-align: center; }
-        input { width: 100%; padding: 15px; margin: 15px 0; background: #111; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
-        .btn { width: 100%; padding: 20px; background: #0F0; color: #000; font-weight: bold; border: none; border-radius: 5px; margin-top: 10px; }
+        body { background: #000; color: #0F0; font-family: monospace; margin: 0; }
+        .tabs { display: flex; border-bottom: 2px solid #0F0; }
+        .tab { flex: 1; padding: 15px; text-align: center; cursor: pointer; background: #111; }
+        .tab.active { background: #0F0; color: #000; font-weight: bold; }
+        .content { padding: 20px; display: none; }
+        .content.active { display: block; }
+        input { width: 100%; padding: 15px; margin: 10px 0; background: #111; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #0F0; color: #000; border: none; font-weight: bold; margin-top: 5px; }
     </style>
 </head>
 <body>
-    <div id="painel" class="card">
-        <h3>CONECTANDO AO MONITOR...</h3>
-    </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <script>
-        const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
-        
-        // Pega apenas o primeiro monitor da lista
-        db.ref('monitores').limitToFirst(1).on('value', (snap) => {
-            const painel = document.getElementById('painel');
-            snap.forEach(m => {
-                const id = m.key;
-                painel.innerHTML = `
-                    <h2>📺 MONITOR: ${id}</h2>
-                    <input type="text" id="url" placeholder="Cole o link do YouTube...">
-                    <button class="btn" onclick="adicionar('${id}')">ADICIONAR À FILA</button>
-                    <button class="btn" style="background:#f00;" onclick="limpar('${id}')">LIMPAR TUDO</button>
-                `;
-            });
-        });
+<div class="tabs">
+    <div class="tab active" onclick="show('playlist')">PLAYLIST</div>
+    <div class="tab" onclick="show('telas')">TELAS</div>
+    <div class="tab" onclick="show('ajustes')">AJUSTES</div>
+</div>
 
-        function adicionar(id) {
-            const url = document.getElementById('url').value;
-            db.ref('monitores/' + id + '/playlist').push(url);
-            document.getElementById('url').value = '';
-        }
-        function limpar(id) { db.ref('monitores/' + id + '/playlist').remove(); }
-    </script>
+<div id="playlist" class="content active">
+    <h3>FILA ATUAL</h3>
+    <input type="text" id="url" placeholder="Link YouTube...">
+    <button onclick="adicionar()">ADICIONAR</button>
+    <button onclick="limpar()" style="background:#f00; color:#fff;">LIMPAR FILA</button>
+</div>
+
+<div id="telas" class="content">
+    <h3>MONITORES CONECTADOS</h3>
+    <div id="lista-telas"></div>
+</div>
+
+<div id="ajustes" class="content">
+    <h3>AJUSTES DO SISTEMA</h3>
+    <button onclick="alert('Sistema Reiniciado!')">REINICIAR MONITOR</button>
+    <button onclick="alert('Brilho Ajustado!')">BRILHO 100%</button>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+<script>
+    const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
+
+    function show(id) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    function adicionar() {
+        const url = document.getElementById('url').value;
+        db.ref('monitores/Monitor_Padrao/playlist').push(url);
+    }
+    
+    function limpar() { db.ref('monitores/Monitor_Padrao/playlist').remove(); }
+
+    // Listar telas conectadas
+    db.ref('monitores').on('value', snap => {
+        const div = document.getElementById('lista-telas');
+        div.innerHTML = '';
+        snap.forEach(m => div.innerHTML += `<p>✅ ${m.key} - ONLINE</p>`);
+    });
+</script>
 </body>
 </html>
