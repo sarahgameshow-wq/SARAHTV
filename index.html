@@ -4,26 +4,41 @@
     <meta charset="UTF-8">
     <title>SARAHTV PRO - ESTAÇÃO</title>
     <style>
+        <div id="relogio-estudio" style="position: absolute; top: 20px; right: 20px; color: #00FF00; font-family: monospace; font-size: 2em; background: rgba(0,0,0,0.5); padding: 10px; border: 1px solid #00FF00; border-radius: 5px;">00:00:00</div>
+
+    <script>
+        setInterval(() => {
+            document.getElementById('relogio-estudio').innerText = new Date().toLocaleTimeString();
+        }, 1000);
+    </script>
         body { 
             margin: 0; height: 100vh; overflow: hidden;
             background: #050505; /* Fundo escuro */
             display: flex; align-items: center; justify-content: center; gap: 40px;
         }
 
-        /* CELULAR DE MONITORAMENTO */
-        #celular-tempo { 
-            width: 200px; height: 380px; background: #111; 
-            border-radius: 30px; border: 4px solid #00FF00; 
-            color: #00FF00; padding: 20px; font-family: monospace;
-            display: flex; flex-direction: column; align-items: center;
+      /* Notebook com efeito de luz ambiente */
+        #notebook {
+            width: 60vw; height: 35vw;
+            background: #000; 
+            border: 12px solid #222;
+            border-radius: 15px 15px 5px 5px;
+            overflow: hidden; 
+            position: relative;
+            /* O toque final: um brilho suave que simula luz de estúdio */
+            box-shadow: 0 0 60px rgba(0, 255, 0, 0.2), 0 0 20px rgba(0,0,0,0.5);
         }
 
-        /* NOTEBOOK (INTERFACE) */
-        #notebook {
-            width: 60vw; height: 35vw; /* Proporção ideal de notebook */
-            background: #000; border: 12px solid #333;
-            border-radius: 15px 15px 5px 5px;
-            overflow: hidden; position: relative;
+        /* Celular com vidro fosco */
+        #celular-tempo { 
+            width: 200px; height: 380px; 
+            background: rgba(15, 15, 15, 0.9); 
+            border-radius: 30px; 
+            border: 2px solid #00FF00; 
+            color: #00FF00; padding: 20px; 
+            font-family: 'Courier New', monospace;
+            display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
         }
 
         /* TELA CHEIA (VIDEO) */
