@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTROLE SARAHTV</title>
     <style>
-        body { background: #000; color: #00FF00; font-family: monospace; padding: 20px; text-align: center; }
-        input { width: 90%; padding: 15px; margin: 10px 0; background: #111; border: 2px solid #00FF00; color: #fff; font-size: 16px; }
-        button { width: 95%; padding: 25px; margin: 20px 0; background: #004400; color: #00FF00; border: 2px solid #00FF00; font-size: 1.5em; font-weight: bold; cursor: pointer; border-radius: 10px; }
+        body { background: #111; color: #fff; font-family: sans-serif; padding: 20px; }
+        .monitor-card { background: #222; padding: 15px; margin: 10px; border-radius: 10px; border: 1px solid #00FF00; }
     </style>
 </head>
 <body>
-    <h1>COMANDO SARAHTV</h1>
-    <input type="text" id="urlVideo" placeholder="Cole o Link do Vídeo Aqui">
-    <button onclick="enviarComando()">DISPARAR NA TV</button>
+    <h1>CONTROLE MESTRE SARAH TV</h1>
+    <div id="lista-monitores"></div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
         const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
         
-        function enviarComando() {
-            const url = document.getElementById('urlVideo').value;
-            db.ref('comando').set('PLAY:' + url);
-            alert("Comando enviado com sucesso!");
+        // Busca monitores ativos
+        db.ref('monitores').on('value', (snap) => {
+            const lista = document.getElementById('lista-monitores');
+            lista.innerHTML = '';
+            snap.forEach(m => {
+                const nome = m.key;
+                lista.innerHTML += `
+                    <div class="monitor-card">
+                        <h3>Monitor: ${nome}</h3>
+                        <input type="text" id="url_${nome}" placeholder="Link YouTube/MP4">
+                        <button onclick="enviar('${nome}')">ENVIAR</button>
+                    </div>`;
+            });
+        });
+
+        function enviar(nome) {
+            const url = document.getElementById('url_' + nome).value;
+            db.ref('monitores/' + nome + '/comando').set('PLAY:' + url);
         }
     </script>
 </body>
