@@ -2,40 +2,42 @@
 <html lang="pt-br">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONTROLE</title>
+    <title>CONTROLE PRO</title>
     <style>
         body { background: #000; color: #0F0; font-family: monospace; padding: 20px; }
-        .btn { width: 100%; padding: 20px; margin: 10px 0; background: #0F0; color: #000; font-weight: bold; border: none; border-radius: 5px; }
-        input { width: 100%; padding: 15px; margin: 10px 0; background: #111; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
+        .card { border: 2px solid #0F0; padding: 20px; border-radius: 15px; text-align: center; }
+        input { width: 100%; padding: 15px; margin: 15px 0; background: #111; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
+        .btn { width: 100%; padding: 20px; background: #0F0; color: #000; font-weight: bold; border: none; border-radius: 5px; margin-top: 10px; }
     </style>
 </head>
 <body>
-    <h1>🎮 CONTROLE SARAH TV</h1>
-    <div id="lista"></div>
+    <div id="painel" class="card">
+        <h3>CONECTANDO AO MONITOR...</h3>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
         const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
         
-        db.ref('monitores').on('value', (snap) => {
-            const lista = document.getElementById('lista');
-            lista.innerHTML = '';
+        // Pega apenas o primeiro monitor da lista
+        db.ref('monitores').limitToFirst(1).on('value', (snap) => {
+            const painel = document.getElementById('painel');
             snap.forEach(m => {
                 const id = m.key;
-                lista.innerHTML += `
-                    <div style="border:1px solid #0F0; padding:10px; margin-bottom:10px;">
-                        <h3>${id}</h3>
-                        <input type="text" id="url_${id}" placeholder="Link YouTube">
-                        <button class="btn" onclick="adicionar('${id}')">ADICIONAR À PLAYLIST</button>
-                        <button class="btn" style="background:#800;" onclick="limpar('${id}')">LIMPAR</button>
-                    </div>`;
+                painel.innerHTML = `
+                    <h2>📺 MONITOR: ${id}</h2>
+                    <input type="text" id="url" placeholder="Cole o link do YouTube...">
+                    <button class="btn" onclick="adicionar('${id}')">ADICIONAR À FILA</button>
+                    <button class="btn" style="background:#f00;" onclick="limpar('${id}')">LIMPAR TUDO</button>
+                `;
             });
         });
 
         function adicionar(id) {
-            const url = document.getElementById('url_' + id).value;
+            const url = document.getElementById('url').value;
             db.ref('monitores/' + id + '/playlist').push(url);
+            document.getElementById('url').value = '';
         }
         function limpar(id) { db.ref('monitores/' + id + '/playlist').remove(); }
     </script>
