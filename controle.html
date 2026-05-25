@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SARAH TV - CONTROLE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTROLE DE PLAYLIST</title>
     <style>
-        body { background: #000; color: #0F0; font-family: 'Courier New', monospace; margin: 0; padding: 20px; text-align: center; }
-        .header { border: 2px solid #0F0; padding: 10px; border-radius: 10px; margin-bottom: 20px; font-weight: bold; }
-        .search-bar { width: 100%; padding: 15px; margin-bottom: 20px; background: #111; border: 2px solid #0F0; color: #fff; border-radius: 5px; box-sizing: border-box; }
-        
-        /* Grid dos botões principais */
-        .controls-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .btn-main { background: #111; border: 2px solid #0F0; color: #0F0; padding: 20px 0; border-radius: 10px; font-weight: bold; cursor: pointer; }
-        
-        /* Grid das funções extras */
-        .extra-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
-        .btn-extra { background: #002200; border: 1px solid #0F0; color: #0F0; padding: 15px 5px; border-radius: 5px; font-size: 0.8em; }
+        body { background: #000; color: #0F0; font-family: monospace; padding: 20px; }
+        .monitor-box { background: #111; border: 2px solid #0F0; padding: 15px; margin-bottom: 20px; border-radius: 10px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; background: #000; color: #fff; border: 1px solid #0F0; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #0F0; color: #000; font-weight: bold; border: none; border-radius: 5px; }
     </style>
 </head>
 <body>
-    <div class="header">((())) SARAH TV PRO - MOBILE CONTROLLER</div>
-
-    <input type="text" class="search-bar" placeholder="COLAR LINK DO YOUTUBE...">
-
-    <div class="controls-grid">
-        <button class="btn-main">⏮</button>
-        <button class="btn-main" style="font-size: 2em;">⏯</button>
-        <button class="btn-main">⏭</button>
-    </div>
-
-    <div class="extra-grid">
-        <button class="btn-extra">ATUALIZAR PREVISÃO</button>
-        <button class="btn-extra">EDITAR NOTÍCIAS</button>
-        <button class="btn-extra">ALTERAR MONITOR</button>
-    </div>
+    <h1>🎮 GESTOR DE FILA</h1>
+    <div id="lista-monitores"></div>
 
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script>
-        // Lógica de disparo virá aqui conforme a integração com o Firebase
+        const db = firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"}).database();
+        
+        db.ref('monitores').on('value', (snap) => {
+            const container = document.getElementById('lista-monitores');
+            container.innerHTML = '';
+            snap.forEach(m => {
+                const id = m.key;
+                container.innerHTML += `
+                    <div class="monitor-box">
+                        <h3>📺 ${id}</h3>
+                        <input type="text" id="url_${id}" placeholder="Link YouTube">
+                        <button onclick="adicionar('${id}')">ADICIONAR À FILA</button>
+                        <button onclick="limpar('${id}')" style="background:#f00; margin-top:5px;">LIMPAR FILA</button>
+                    </div>`;
+            });
+        });
+
+        function adicionar(id) {
+            const url = document.getElementById('url_' + id).value;
+            // Empurra o link para uma lista no Firebase
+            db.ref('monitores/' + id + '/playlist').push(url);
+            alert("Vídeo adicionado à fila!");
+        }
+
+        function limpar(id) {
+            db.ref('monitores/' + id + '/playlist').remove();
+            alert("Fila limpa!");
+        }
     </script>
 </body>
 </html>
