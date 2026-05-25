@@ -1,46 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <style>
-        body { margin: 0; background: #050505; color: #39FF14; font-family: 'Courier New', monospace; height: 100vh; display: flex; flex-direction: column; }
-        header { padding: 10px; border-bottom: 2px solid #39FF14; text-align: center; font-weight: bold; }
-        #main-container { display: flex; flex-grow: 1; }
-        #video-container { flex-grow: 1; border: 2px solid #39FF14; margin: 10px; }
-        iframe { width: 100%; height: 100%; border: none; }
-        #side-panel { width: 300px; padding: 20px; border-left: 2px solid #39FF14; }
-        #rodape { height: 40px; background: #39FF14; color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; }
-    </style>
-</head>
-<body>
-    <header>SARAHTV PRO - ESTAÇÃO DE MONITORAMENTO ZUMBI DOS PALMARES</header>
-    <div id="main-container">
-        <div id="video-container" id="player">AGUARDANDO SINAL...</div>
-        <div id="side-panel">
-            <h3>STATUS:</h3>
-            <p id="monitor-id">Carregando...</p>
-        </div>
-    </div>
-    <div id="rodape">SISTEMA ONLINE - OSASCO</div>
+   <style>
+    body { 
+        margin: 0; 
+        background: #000; 
+        color: #39FF14; 
+        font-family: 'Courier New', monospace; 
+        height: 100vh; 
+        display: flex; 
+        flex-direction: column; 
+    }
+    
+    /* Cabeçalho como na imagem */
+    header { 
+        padding: 15px; 
+        border-bottom: 3px solid #39FF14; 
+        text-align: center; 
+        font-weight: bold; 
+        font-size: 20px;
+        letter-spacing: 2px;
+    }
 
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
-    <script>
-        firebase.initializeApp({databaseURL: "https://sarahtv-19938-default-rtdb.firebaseio.com"});
-        const db = firebase.database();
-        const id = "Monitor_Principal";
-        document.getElementById('monitor-id').innerText = id;
+    /* Container Principal */
+    #main-container { 
+        display: flex; 
+        flex-grow: 1; 
+        padding: 10px;
+    }
 
-        db.ref('fila').on('value', (snap) => {
-            let lista = [];
-            snap.forEach(c => lista.push(c.val()));
-            if(lista.length > 0) tocar(lista);
-        });
+    /* Área do Vídeo com moldura */
+    #video-container { 
+        flex-grow: 1; 
+        border: 4px solid #39FF14; 
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        function tocar(lista, i = 0) {
-            const vId = lista[i].split('v=')[1]?.split('&')[0] || lista[i].split('/').pop();
-            document.getElementById('video-container').innerHTML = `<iframe src="https://www.youtube.com/embed/${vId}?autoplay=1&controls=0" allow="autoplay"></iframe>`;
-            setTimeout(() => tocar(lista, (i + 1) % lista.length), 60000);
-        }
-    </script>
+    /* Painel Lateral Status */
+    #side-panel { 
+        width: 350px; 
+        padding: 30px; 
+        border-left: 3px solid #39FF14; 
+        background: #0a0a0a;
+    }
+
+    /* Rodapé fixo */
+    #rodape { 
+        height: 50px; 
+        background: #39FF14; 
+        color: #000; 
+        font-weight: bold; 
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-size: 18px;
+    }
+</style>
 </body>
 </html>
